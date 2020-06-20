@@ -3,12 +3,20 @@
  */
 
 import "RoqmeSystemWebotsRetirement.roqme"
-import "file:/home/renan/SOFTWARE/smartsoft/repos/DomainModelsRepositories/CommBasicObjects/model/CommBasicObjects.services"
 import "file:/home/renan/SOFTWARE/smartsoft/repos/DomainModelsRepositories/CommObjectRecognitionObjects/model/CommObjectRecognitionObjects.services"
+import "file:/home/renan/SOFTWARE/smartsoft/repos/DomainModelsRepositories/CommBasicObjects/model/CommBasicObjects.services"
 
+context PeopleInRoom monitor {
+	service : CommObjectRecognitionObjects.SimplePeoplePushService
+	attribute : is_visible [Boolean]
+}
+context WantedPersonFound monitor {
+	service : CommObjectRecognitionObjects.SimpleWantedPeoplePushService
+	attribute : is_visible [Boolean]
+}
 context RobotBump monitor {
-	service : CommBasicObjects.BumperEventService
-	attribute : newState [Enum]
+	service : CommBasicObjects.SimpleBumperService
+	attribute : is_bumped [Boolean]
 }
 context BatteryLevel monitor {
 	service : CommBasicObjects.BatteryPushService
@@ -18,19 +26,11 @@ context BatteryCharging monitor {
 	service : CommBasicObjects.BatteryPushService
 	attribute : externalPower [Boolean]
 }
-context ObjectBump monitor {
-	service : CommObjectRecognitionObjects.ObjectEventBump
-	attribute : state [Enum]
-}
 context PersonBump monitor {
-	service : CommObjectRecognitionObjects.PeopleEventBump
-	attribute : state [Enum]
+	service : CommObjectRecognitionObjects.SimplePeopleBumpPushService
+	attribute : is_bumped [Boolean]
 }
-context WantedPersonFound monitor {
-	service : CommObjectRecognitionObjects.WantedPersonEvent
-	attribute : state [Enum]
-}
-context PeopleInRoom monitor {
-	service : CommObjectRecognitionObjects.PeopleEventService
-	attribute : state [Enum]
+context ObjectBump monitor {
+	service : CommObjectRecognitionObjects.SimpleObjectBumpPushService
+	attribute : is_bumped [Boolean]
 }

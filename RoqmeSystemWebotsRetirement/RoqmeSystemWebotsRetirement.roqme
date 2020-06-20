@@ -4,23 +4,13 @@
  
 roqme RoqmeSystemWebotsRetirement
 
-context RobotBump : enum {BUMPER_UNKNOWN, BUMPER_NOT_PRESSED, BUMPER_PRESSED}
-context RobotBumpEventBump : eventtype := RobotBump::BUMPER_PRESSED
-context RobotBumpEventNotBump : eventtype := RobotBump::BUMPER_NOT_PRESSED
+context PeopleInRoom : boolean
+context WantedPersonFound : boolean
+context RobotBump : boolean
 context BatteryLevel : number
 context BatteryCharging : boolean
-context ObjectBump : enum {BUMP, NOT_BUMP}
-context ObjectBumpEventBump : eventtype := ObjectBump::BUMP
-context ObjectBumpEventNotBump : eventtype := ObjectBump::NOT_BUMP
-context PersonBump : enum {BUMP, NOT_BUMP}
-context PersonBumpEventBump : eventtype := PersonBump::BUMP
-context PersonBumpEventNotBump : eventtype := PersonBump::NOT_BUMP
-context WantedPersonFound : enum {VISIBLE, INVISIBLE, FINISHED}
-context WantedPersonFoundEvent : eventtype := PeopleInRoom::VISIBLE
-context WantedPersonFoundEventInvisible : eventtype := PeopleInRoom::INVISIBLE
-context PeopleInRoom : enum {VISIBLE, INVISIBLE, FINISHED}
-context PeopleInRoomEventVisible : eventtype := PeopleInRoom::VISIBLE
-context PeopleInRoomEventInvisible : eventtype := PeopleInRoom::INVISIBLE
+context PersonBump : boolean
+context ObjectBump : boolean
 
 property safety reference 0.5
 property security reference 1
@@ -28,16 +18,16 @@ property resource_available reference 1
 property customer_satisfaction reference 0
 property mission_completion reference 0
 
-observation o1 : WantedPersonFoundEventInvisible undermines mission_completion 
-observation o2 : PeopleInRoomEventVisible undermines safety
-observation o3 : PersonBumpEventBump reinforces mission_completion veryhigh
-observation o4 : ObjectBumpEventBump undermines safety high
-observation o5 : RobotBumpEventBump undermines safety
-observation o6 : WantedPersonFoundEvent reinforces mission_completion high
+observation o1 : (WantedPersonFound = false) undermines mission_completion 
+observation o2 : (PeopleInRoom = true) undermines safety
+observation o3 : (PersonBump = true) reinforces mission_completion veryhigh
+observation o4 : (ObjectBump = true) undermines safety high
+observation o5 : (RobotBump = true) undermines safety
+observation o6 : (WantedPersonFound = true) reinforces mission_completion high
 observation o7 : (BatteryLevel < 20) undermines mission_completion veryhigh
 observation o8 : (BatteryCharging = true) undermines mission_completion
 observation o9 : (BatteryCharging = true) reinforces security 
-observation o10 : PeopleInRoomEventInvisible reinforces safety 
-observation o11 : PersonBumpEventBump reinforces customer_satisfaction veryhigh
-observation o12 : ObjectBumpEventNotBump reinforces safety 
-observation o13 : RobotBumpEventNotBump reinforces safety
+observation o10 : (PeopleInRoom = false) reinforces safety 
+observation o11 : (PersonBump = true) reinforces customer_satisfaction veryhigh
+observation o12 : (ObjectBump = false) reinforces safety 
+observation o13 : (RobotBump = false) reinforces safety
