@@ -10,13 +10,12 @@ context BatteryLevel : number
 context BatteryCharging : boolean
 context RobotBump : boolean
 context PersonBump : boolean
-context ObjectBump : boolean
 context ObjectIdentified : boolean
 context SearchingPerson : boolean
 
 property safety reference 1
-property customer_satisfaction reference 0.5
 property mission_completion reference 0.5
+property power_autonomy reference 1
 
 observation o1 : eventWhen(WantedPersonFound) reinforces mission_completion veryhigh
 observation o2 : eventWhen(PeopleInRoom) reinforces mission_completion 
@@ -32,9 +31,8 @@ observation o10 : (RobotBump -> !RobotBump) or (PersonBump -> !PersonBump) reinf
 observation o11 : eventWhen(PeopleInRoom) undermines safety low
 observation o12 : eventWhen(PersonBump) or eventWhen(RobotBump) undermines safety high
 
-observation o13 : eventWhen(WantedPersonFound) reinforces customer_satisfaction veryhigh
-observation o14 : (!RobotBump repeat(200)) or (!PersonBump repeat(500)) reinforces customer_satisfaction 
-observation o15 : eventWhen(BatteryCharging) undermines customer_satisfaction
-observation o16 : eventWhen(PersonBump) or eventWhen(RobotBump) undermines customer_satisfaction 
+observation o13 : eventWhen(BatteryLevel >= 20) and eventWhen(BatteryLevel < 50) undermines power_autonomy 
+observation o14 : eventWhen(BatteryLevel < 20) and eventWhen(BatteryLevel >= 10) undermines power_autonomy high
+observation o15 : eventWhen(BatteryLevel < 10) undermines power_autonomy veryhigh
 
  
